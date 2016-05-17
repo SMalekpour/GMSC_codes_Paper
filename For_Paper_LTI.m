@@ -4,6 +4,8 @@
 % William A. Sethares. It has been submitted to a Journal for possible
 % publication.
 % Sheida Malekpour 5/9/2016
+% This code compares different measures of GMSC (for our GMSC paper)
+% Sheida Malekpour 5/9/2016
 clc
 clear all
 close all
@@ -95,7 +97,7 @@ y=[y1;y2];
                 [Sall,coherence,freq]=coherence_vector_general_correct3_window_overlap(Block1(ii,:),Block2(jj,:),win,inc,fs);
                 hold on
                 ccfn(rr,:)=fftshift(abs(coherence));
-                plot(freq,(ccfn(rr,:)))
+                plot(freq(65:end),(ccfn(rr,65:end)))
             end
         end
         ylabel('Pairwise');
@@ -105,7 +107,7 @@ y=[y1;y2];
         figure;
         hold on
         NGMSC=max(ccfn);
-        plot(freq,(NGMSC))
+        NN=plot(freq(65:end),(NGMSC(65:end)))
         hold on
       
         grid on;
@@ -141,7 +143,8 @@ y=[y1;y2];
             Lambda(ii)=(max(abs(eigv(:,ii)))-1)/(M-1);
         end
         %figure;
-        plot(freq,fftshift(abs(Lambda)))
+        RM=fftshift(abs(Lambda));
+        plot(freq(65:end),RM(65:end))
    
         hold on
         grid on;
@@ -153,7 +156,8 @@ y=[y1;y2];
         Block2=[y];
         %figure;
         [Sall,coherencep,freq]=coherence_vector_general_correct3_window_overlap(Block1,Block2,win,inc,fs);
-        plot(freq,fftshift(abs(coherencep)),'*-')
+        PQ=fftshift(abs(coherencep));
+        PP=plot(freq(65:end),PQ(65:end),'*-')
         hold on
         xlabel('Frequency');
         grid on;
@@ -183,8 +187,8 @@ y=[y1;y2];
         trace_Kyx=sum(V_cohyx,1);
         max_ev=max(V_cohxy);
         %figure
-
-        plot(freq,fftshift(max_ev));
+        KP=fftshift(max_ev);
+        KK=plot(freq(65:end),KP(65:end));
    
         grid on;
         set(gca, 'FontSize', 20)
@@ -194,8 +198,10 @@ y=[y1;y2];
     xlabel('Frequency');
     legend('N-GMSC','R-GMSC','P-GMSC','K-GMSC','location','Best')
     legend boxoff
-     
-    
+  
+    xlim([0.2812 0.28127])
+    ylim([0.7351 0.7352])
+    legend([NN,PP,KK],'N-GMSC','P-GMSC','K-GMSC','location','Best')
     
     
     
